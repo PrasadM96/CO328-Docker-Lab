@@ -1,0 +1,122 @@
+********************************************************************************************************
+											Docker Lab2
+********************************************************************************************************
+
+********************************************************************************************************
+
+1) docker build . -t task1
+   docker image ls
+   docker run -p3000:3000 task1
+  
+********************************************************************************************************
+  
+2) Dokerfile
+   ------------------------------------- 
+   
+    FROM node:alpine
+
+	COPY . /app
+
+	EXPOSE 3000
+
+	CMD [ "node", "/app/app2.js" ]
+	
+   -------------------------------------
+   
+********************************************************************************************************
+
+3)	Dockerfile
+	------------------------------------- 
+   
+    FROM node:alpine
+
+	ENV message='Hello'
+	ENV colour=red
+
+	COPY . /app
+
+	EXPOSE 3000
+
+	CMD [ "node", "/app/app2.js" ]
+	
+   -------------------------------------
+	
+	
+	docker build . -t task2
+	docker run --env colour=grey --env message='Hello world' -p3000:3000 task2
+	
+********************************************************************************************************
+   
+4) Dockerfile
+   ----------------------------------------
+    FROM node:alpine
+
+	ENV message='Hello'
+	ENV colour=red
+
+	COPY package*.json ./
+
+	RUN npm install
+
+	COPY . /app
+
+	EXPOSE 3000
+
+	CMD [ "node", "/app/app3.js" ]
+   ----------------------------------------
+   
+   docker build . -t task3
+   docker run --env colour=blue --env message='Hello world' -p3000:3000 task3
+   
+ ********************************************************************************************************
+ 
+ 5) Docker file 
+ 	----------------------------------------
+ 	FROM node:alpine
+
+	COPY package*.json ./
+
+	RUN npm install
+
+	COPY . .
+
+	EXPOSE 3000
+
+	CMD [ "node", "app4.js" ]
+	
+	----------------------------------------
+	
+	docker build . -t task4
+	docker run -p 3000:3000 task4
+ 
+ ********************************************************************************************************
+ 
+ 6) When we run a container docker will create a new writeable layer on top of the image layer.
+ 	This writeable layer is used to store data which is created by the container. The life of this 
+ 	layer is only as long as the container is alive. When the container is removed all the data is 
+ 	destroyed. 
+	That is why the new container can not access the files which are created by previous container 
+	after removing it. 
+ 
+ ********************************************************************************************************
+ 
+ 7) docker volume create --name my_volume
+ 	docker run -v my_volume:/upload -p3000:3000 task4
+ 	
+ 	-------------------------------------------------------------
+ 	
+ 	root@E15065:/var/lib/docker/volumes/my_volume/_data# ls
+	images.jpeg  maze.c
+	root@E15065:/var/lib/docker/volumes/my_volume/_data# ls
+	download.jpeg  images.jpeg  maze.c
+
+	------------------------------------------------------------
+
+ ********************************************************************************************************
+ 8) docker login
+ 	docker tag task4 prasadm96/node_app4:v1
+ 	docker push prasadm96/node_app4
+ 	
+	https://hub.docker.com/r/prasadm96/node_app4/tags
+
+
